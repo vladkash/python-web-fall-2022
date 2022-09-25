@@ -1,19 +1,20 @@
 import datetime
 
-from models import BankCard
-from exceptions import InvalidCardException
+from fastapi import HTTPException
+
+from app.models import BankCard
 
 
 def check_card(card: BankCard):
     if not card_number_is_valid(card.number):
-        raise InvalidCardException("Card number is not valid")
+        raise HTTPException(400, "Card number is not valid")
     if card_expired(card.expired_at):
-        raise InvalidCardException("Card number is e")
+        raise HTTPException(400, "Card number is expired")
 
 
 def card_number_is_valid(card_number: str):
     """
-    Проверка корректности номера карты 5272690236059133
+    Проверка корректности номера карты
     использует алгоритм Луна
     :param card_number: номер карты
     :return: корректен ли переданный номер карты
