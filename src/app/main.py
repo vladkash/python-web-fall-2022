@@ -13,7 +13,14 @@ getcontext().prec = 2
 
 
 @app.post("/consumption")
-async def store_item(request: ConsumptionRequest):
+async def consumption_from_card(request: ConsumptionRequest):
+    """
+    Метод списания с карты денег
+    Проверяет корректность карты, списывает деньги
+    И отправляет чек
+    :param request: Запрос, содержащий информацию о карте и сумме списания
+    :return:
+    """
     check_card(request.bank_card)
     consumption(request.bank_card, request.amount)
     send_receipt(request.bank_card, request.amount)
