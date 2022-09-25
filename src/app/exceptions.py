@@ -11,5 +11,5 @@ class ConsumptionException(APIException):
     pass
 
 
-class LoggingException(APIException):
+class ReceiptSendingException(APIException):
     pass

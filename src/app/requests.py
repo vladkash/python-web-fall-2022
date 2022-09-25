@@ -1,6 +1,6 @@
 from decimal import Decimal
 from pydantic import BaseModel
-from models import BankCard
+from app.models import BankCard
 
 
 class ConsumptionRequest(BaseModel):
