@@ -7,7 +7,13 @@ import generated.service_pb2 as service__pb2
 
 
 class Service(TestServiceServicer):
-    def CreateReceipt(self, request, context):
+    def CreateReceipt(self, request: service__pb2.ConsumptionInfo, context):
+        """
+        Создает чек по переданным параметрам
+        :param request: информация о списании
+        :param context: контекст
+        :return:
+        """
         return service__pb2.ReceiptResponse(message=f"Successful consumption from card {request.card_number}")
 
 
