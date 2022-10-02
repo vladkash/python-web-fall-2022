@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+message ConsumptionInfo {
+  string card_number = 1;
+  float amount = 2;
+}
+
+message ReceiptResponse {
+  string message = 1;
+}
+
+service TestService {
+  rpc CreateReceipt(ConsumptionInfo) returns (ReceiptResponse);
+}

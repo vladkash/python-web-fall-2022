@@ -2,9 +2,12 @@ import datetime
 import logging
 from decimal import Decimal
 
+import grpc
 from fastapi import HTTPException
 
 from app.models import BankCard
+from generated.service_pb2 import ConsumptionInfo
+from generated.service_pb2_grpc import TestServiceStub
 
 
 def consumption(bank_card: BankCard, amount: Decimal):
@@ -20,7 +23,12 @@ def consumption(bank_card: BankCard, amount: Decimal):
 
 
 def send_receipt(bank_card: BankCard, amount: Decimal):
-    logging.basicConfig(filename=f"logs/{datetime.datetime.now().strftime('%Y-%m-%d')}.log", encoding='utf-8',
-                        level=logging.DEBUG)
-    logging.getLogger(__name__).info(
-        f"Consumption from card {bank_card.number}, amount {amount}, now balance is {bank_card.balance}")
+    with grpc.insecure_channel("localhost:3000") as channel:
+        client = TestServiceStub(channel)
+
+        confirmation = client.CreateReceipt(ConsumptionInfo(
+            card_number=bank_card.number,
+            amount=amount * 100,
+        ))
+
+        print(confirmation.message)
